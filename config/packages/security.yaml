@@ -11,7 +11,7 @@ security:
         property: email
   firewalls:
     login:
-      pattern: /api/login
+      pattern: ^/api/login_check  # Modifié pour pointer directement sur login_check
       stateless: true
       json_login:
         check_path: /api/login_check
@@ -28,6 +28,25 @@ security:
     main:
       lazy: true
       provider: app_user_provider
+#  firewalls:
+#    login:
+#      pattern: /api/login
+#      stateless: true
+#      json_login:
+#        check_path: /api/login_check
+#        success_handler: lexik_jwt_authentication.handler.authentication_success
+#        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+#    api:
+#      pattern: ^/api
+#      stateless: true
+#      jwt: ~
+#
+#    dev:
+#      pattern: ^/(_(profiler|wdt)|css|images|js)/
+#      security: false
+#    main:
+#      lazy: true
+#      provider: app_user_provider
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
@@ -40,8 +59,12 @@ security:
   access_control:
     #         - { path: ^/admin, roles: ROLE_ADMIN }
     #         - { path: ^/profile, roles: ROLE_USER }
+#    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
-    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api, roles: PUBLIC_ACCESS }
+    - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+
 
 when@test:
   security:

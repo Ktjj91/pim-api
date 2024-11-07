@@ -4,7 +4,12 @@ framework:
     #csrf_protection: true
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        handler_id: null
+        cookie_secure: true
+        cookie_samesite: 'none'  # Assure que les cookies peuvent être partagés cross-origin
+
+
 
     #esi: true
     #fragments: true
@@ -13,4 +18,5 @@ when@test:
     framework:
         test: true
         session:
+#            cookie_secure: auto
             storage_factory_id: session.storage.factory.mock_file
